@@ -169,21 +169,15 @@ public:
     {
         if(left->IsIdent())
         {
-           if(evars.count(left->GetId()) && !evars.empty())
-           {
+           //if(evars.count(left->GetId()) && !evars.empty())
+          //{
              Value right1 = right->Eval(evars);
              string left1 = left->GetId();
                
              evars[left1] = right1;
-           }
-           else
-           {
-             Value right1 = right->Eval(evars);
-             string left1 = left->GetId();
-              
-             evars.insert (std::pair<string, Value>(left1, right1));
-             //evars[left1] = right;   
-           }
+             return right1;
+           //}
+
         }
         else
         {
@@ -205,8 +199,19 @@ public:
 	PrintStatement(int line, ParseTree *e) : ParseTree(line, e) {}
     virtual Value Eval(map <string, Value> &evars)
     {
+	    Value lVal = left->Eval(evars);
+        if (lVal.isIntType())
+            cout << lVal.getInteger() << endl;
+        else if (lVal.isStringType())
+            cout << lVal.getString() << endl;
+        else if (lVal.isBoolType())
+            cout << lVal << endl;
+        return Value();
+
+	    /*
       cout << left->Eval(evars) << '\n';
       return Value();
+	     */
     }
 };
 
